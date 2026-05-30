@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+
+    <div class="body">
+
+        <div class="title">To-Do</div>
+
+        <form class="upper" action="/add" method="POST">
+
+            <div class="input">
+                <input
+                    class="inputbox"
+                    name="task"
+                    type="text"
+                    placeholder="INPUT GOES HERE"
+                >
+            </div>
+
+            <button type="submit" class="add">+</button>
+
+        </form>
+
+        <hr class="seprator">
+
+        <div class="hcontainer">
+
+            {% for todo in todos %}
+
+            <div class="icontainer" data-index="{{ loop.index0 }}">
+
+                <div class="items">
+                    {{ todo["task"] }}
+                </div>
+
+                <a href="/edit/{{ loop.index0 }}">
+                    <div class="edit">✎</div>
+                </a>
+
+                <a href="/delete/{{ loop.index0 }}">
+                    <div class="check">X</div>
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

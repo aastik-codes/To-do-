@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Todo</title>
+</head>
+<body>
+
+    <h1>Edit Todo</h1>
+
+    <form action="/update/{{ index }}" method="POST">
+
+        <input
+            type="text"
+            name="task"
+            value="{{ todo }}"
+        >
+
+        <button type="submit">
+            Save
+        </button>
+
+    </form>
+
+</body>
+</html>
