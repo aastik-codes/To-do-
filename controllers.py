@@ -1,10 +1,10 @@
 from flask import render_template, request
-from config import collection
+import config 
 
 
 def show_home():
 
-    todos = list(collection.find())
+    todos = list(config.collection.find())
 
     return render_template(
         "index.html",
@@ -16,7 +16,7 @@ def add_todo():
 
     task = request.form["task"]
 
-    collection.insert_one(
+    config.collection.insert_one(
         {
             "task": task
         }
@@ -27,9 +27,9 @@ def add_todo():
 
 def delete_Todo(index):
 
-    todos = list(collection.find())
+    todos = list(config.collection.find())
 
-    collection.delete_one(
+    config.collection.delete_one(
         {
             "_id": todos[index]["_id"]
         }
@@ -42,9 +42,9 @@ def update_todo(index):
 
     task = request.form["task"]
 
-    todos = list(collection.find())
+    todos = list(config.collection.find())
 
-    collection.update_one(
+    config.collection.update_one(
         {
             "_id": todos[index]["_id"]
         },
@@ -60,7 +60,7 @@ def update_todo(index):
 
 def edit_todo(index):
 
-    todos = list(collection.find())
+    todos = list(config.collection.find())
 
     return render_template(
         "edit.html",

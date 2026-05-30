@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
 
-
+collection = None
 def startmongo():
     global client
     global db
