@@ -1,14 +1,34 @@
 from flask import render_template, request
-import config 
+import config
 
 
 def show_home():
 
-    todos = list(config.collection.find())
+    todos = list(
+        config.collection.find(
+            {
+                "status": "active"
+            }
+        )
+    )
 
     return render_template(
         "index.html",
-        todos=todos
+        todos=todos,
+        history_mode=False
+    )
+
+
+def show_history():
+
+    todos = list(
+        config.collection.find()
+    )
+
+    return render_template(
+        "index.html",
+        todos=todos,
+        history_mode=True
     )
 
 
@@ -18,7 +38,8 @@ def add_todo():
 
     config.collection.insert_one(
         {
-            "task": task
+            "task": task,
+            "status": "active"
         }
     )
 
@@ -27,11 +48,22 @@ def add_todo():
 
 def delete_Todo(index):
 
-    todos = list(config.collection.find())
+    active_todos = list(
+        config.collection.find(
+            {
+                "status": "active"
+            }
+        )
+    )
 
-    config.collection.delete_one(
+    config.collection.update_one(
         {
-            "_id": todos[index]["_id"]
+            "_id": active_todos[index]["_id"]
+        },
+        {
+            "$set": {
+                "status": "inactive"
+            }
         }
     )
 
@@ -42,11 +74,17 @@ def update_todo(index):
 
     task = request.form["task"]
 
-    todos = list(config.collection.find())
+    active_todos = list(
+        config.collection.find(
+            {
+                "status": "active"
+            }
+        )
+    )
 
     config.collection.update_one(
         {
-            "_id": todos[index]["_id"]
+            "_id": active_todos[index]["_id"]
         },
         {
             "$set": {
@@ -60,10 +98,16 @@ def update_todo(index):
 
 def edit_todo(index):
 
-    todos = list(config.collection.find())
+    active_todos = list(
+        config.collection.find(
+            {
+                "status": "active"
+            }
+        )
+    )
 
     return render_template(
         "edit.html",
         index=index,
-        todo=todos[index]["task"]
+        todo=active_todos[index]["task"]
     )
