@@ -2,7 +2,6 @@ from flask import Flask
 from config import *
 from config import HOST, PORT
 
-
 app = Flask(__name__)
 
 from routes import *

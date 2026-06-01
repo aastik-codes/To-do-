@@ -29,17 +29,41 @@
 
         </form>
 
+        <div class="history-container">
+
+            <a href="/">
+                <button type="button" class="history-btn">
+                    Active Todos
+                </button>
+            </a>
+
+            <a href="/history">
+                <button type="button" class="history-btn">
+                    History
+                </button>
+            </a>
+
+        </div>
+
         <hr class="seprator">
 
         <div class="hcontainer">
 
             {% for todo in todos %}
 
-            <div class="icontainer" data-index="{{ loop.index0 }}">
+            <div class="icontainer">
 
                 <div class="items">
+
                     {{ todo["task"] }}
+
+                    {% if todo["status"] == "inactive" %}
+                        (Deleted)
+                    {% endif %}
+
                 </div>
+
+                {% if todo["status"] == "active" %}
 
                 <a href="/edit/{{ loop.index0 }}">
                     <div class="edit">✎</div>
@@ -48,6 +72,8 @@
                 <a href="/delete/{{ loop.index0 }}">
                     <div class="check">X</div>
                 </a>
+
+                {% endif %}
 
             </div>
 
